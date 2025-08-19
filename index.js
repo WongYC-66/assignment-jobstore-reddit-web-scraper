@@ -7,7 +7,7 @@ export const scrapData = () => {
 
 
 // todo
-export const writeToFile = (data) => {
+export const writeToFile = async (data) => {
     // data as Array of JSON
 }
 
