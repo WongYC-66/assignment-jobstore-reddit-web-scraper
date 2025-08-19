@@ -1,3 +1,25 @@
+# Feature:
+1. This is an assignment task
+1. A web scrapper of https://www.reddit.com/r/malaysia/
+2. Crawled data store at ./src/output/data.json
+3. Only posts with user-uploaded-image will be kept
+
+## Prerequsite:
+- install latest node
+
+## Usage:
+1.  clone a copy
+    ```
+    git pull https://github.com/WongYC-66/assignment-jobstore-reddit-web-scraper
+    ```
+
+1. npm install
+1. npm run start
+1. open index.html with live server [localhost](http://127.0.0.1:5500/)
+
+
+
+# Assignment:
 ### Instructions:
 - Develop a simple web scraper
 - Get your data source from Reddit, search for any subreddit you prefer (eg. https://www.reddit.com/r/malaysia/)
@@ -19,6 +41,7 @@
 1. process data(filter only with images)
 1. stores as JSON.
     - format: 
+    ```
     [
         { 
             post_title: title1,
@@ -30,4 +53,5 @@
         }
         , ...
     ]
+    ```
 1. beside JSON, make a HTML to fetch (reuse module), and display.
