@@ -4,7 +4,6 @@ import { writeFile } from 'node:fs/promises';
 // const FETCH_TIMES = 10
 const FETCH_TIMES = 3
 
-// todo
 export const scrapData = async () => {
     // technicality issue :
     // reddit dont use pagination like ?page=1 , has to find other way
@@ -25,8 +24,6 @@ export const scrapData = async () => {
         if (data.error) {
             return console.error(data.error)
         }
-
-        console.log(data)
         after = data.after     // update "after" for reddit pagination
         allData.push(...data.children)
     }
@@ -34,9 +31,10 @@ export const scrapData = async () => {
     return allData
 }
 
+// helper fn
 const fetchReddit = async (options) => {
     const { after = "null" } = options  // default to null
-    const fetchURL = `https://www.reddit.com/r/malaysia/.json?after=${after}`
+    const fetchURL = `https://www.reddit.com/r/malaysia/new/.json?after=${after}`
     console.log({ fetchURL })
     try {
         const response = await fetch(fetchURL)
@@ -45,6 +43,24 @@ const fetchReddit = async (options) => {
         return data
     } catch {
         return { error: "fetch failed" }
+    }
+}
+
+// helper fn
+const filterData = (data) => {
+    // return data;
+    return data
+    .map(toPostTitleAndImage_URL)
+    .filter(item => item.image_url !== null)
+}
+
+// helper fn
+const toPostTitleAndImage_URL = (item) => {
+    item = item.data
+    return {
+        post_title : item?.title,
+        // image_url:item?.preview?.images?.[0]?.source?.url
+        image_url: item?.url
     }
 }
 
@@ -59,7 +75,8 @@ export const writeToFile = async (data, filename) => {
 const main = async () => {
 
     const data = await scrapData()
-    await writeToFile(data, "data.json")
+    const filteredData = filterData(data)
+    await writeToFile(filteredData, "data.json")
 }
 
 main()
