@@ -1,8 +1,8 @@
-import { writeToFile } from "./index.js"
+import { writeToFile } from "./src/index.js"
 
 import assert from 'node:assert/strict';    // https://nodejs.org/api/assert.html#class-assertassert
 import test from 'node:test';               // https://nodejs.org/api/test.html
-import { existsSync } from 'node:fs';
+import { existsSync, unlinkSync } from 'node:fs';
 import { readFile } from 'node:fs/promises';
 
 // TDD approach 
@@ -28,4 +28,7 @@ test('writeToFile write with no data loss', async () => {
     const readData = await readFile("./test.json", "utf-8")
     const parsedData = JSON.parse(readData)
     assert.deepEqual(parsedData, FAKE_DATA)
+
+    // clean up - delete
+    unlinkSync("./test.json")
 });
