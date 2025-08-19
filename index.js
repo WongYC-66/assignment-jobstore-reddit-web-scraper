@@ -34,7 +34,10 @@ export const scrapData = async () => {
 // helper fn
 const fetchReddit = async (options) => {
     const { after = "null" } = options  // default to null
-    const fetchURL = `https://www.reddit.com/r/malaysia/new/.json?after=${after}`
+
+    // https://www.reddit.com/r/redditdev/comments/1866kxm/cannot_view_reddit_images_from_json_api/
+    // append raw_json=1 to avoid reddit encrpytion
+    const fetchURL = `https://www.reddit.com/r/malaysia/new/.json?after=${after}&raw_json=1`
     console.log({ fetchURL })
     try {
         const response = await fetch(fetchURL)
@@ -46,22 +49,32 @@ const fetchReddit = async (options) => {
     }
 }
 
+
 // helper fn
-const filterData = (data) => {
-    // return data;
-    return data
-    .map(toPostTitleAndImage_URL)
-    .filter(item => item.image_url !== null)
+const removeDataWithoutMedia = (data) => {
+    return data.filter(item => item.img_url.length >= 1)
 }
 
 // helper fn
-const toPostTitleAndImage_URL = (item) => {
-    item = item.data
-    return {
-        post_title : item?.title,
-        // image_url:item?.preview?.images?.[0]?.source?.url
-        image_url: item?.url
+const processData = (data) => {
+    let processed = data.map(item => {
+        return {
+            item: item.data.title,
+            img_url: item.data.media_metadata
+        }
+    })
+
+    const convertImgUrlToLinkArr = (item) => {
+        const links = []
+        for (let id in item.img_url) {
+            links.push(item.img_url[id]?.s?.u)
+        }
+        item.img_url = links
     }
+
+    processed.forEach(convertImgUrlToLinkArr)
+
+    return processed
 }
 
 
@@ -75,8 +88,10 @@ export const writeToFile = async (data, filename) => {
 const main = async () => {
 
     const data = await scrapData()
-    const filteredData = filterData(data)
+    const processedData = processData(data)
+    const filteredData = removeDataWithoutMedia(processedData)
     await writeToFile(filteredData, "data.json")
+    // await writeToFile(filteredData, "data.json")
 }
 
 main()
