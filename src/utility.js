@@ -25,7 +25,7 @@ export const removeDataWithoutMedia = (data) => {
 export const processData = (data) => {
     let processed = data.map(item => {
         return {
-            item: item.data.title,
+            post_title: item.data.title,
             img_url: item.data.media_metadata
         }
     })
