@@ -79,6 +79,8 @@ export const writeToFile = async (data, filename) => {
 
 const main = async () => {
     const data = await scrapData()
+    await writeToFile(data, "rawData.json")  // a copy of raw
+
     const processedData = processData(data)
     const filteredData = removeDataWithoutMedia(processedData)
     await writeToFile(filteredData, "data.json")
