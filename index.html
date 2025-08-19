@@ -40,7 +40,10 @@
 </body>
 
 <script defer>
-    const jsonUrl = `${window.location.origin}/src/output/data.json`;
+    const domainURL = window.location.href
+        .split("/").slice(0, -1)
+        .join('/')
+    const jsonUrl = `${domainURL}/src/output/data.json`;
     console.log(jsonUrl)
 
     const updateContainer = async () => {
