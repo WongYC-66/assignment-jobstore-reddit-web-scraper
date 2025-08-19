@@ -24,16 +24,22 @@ export const removeDataWithoutMedia = (data) => {
 // helper fn
 export const processData = (data) => {
     let processed = data.map(item => {
+        const isURLEndsWithImageType = item.data.url.endsWith(".jpeg")
         return {
             post_title: item.data.title,
-            img_url: item.data.media_metadata
+            img_url: isURLEndsWithImageType ? item.data.url : item.data.media_metadata
         }
     })
 
     const convertImgUrlToLinkArr = (item) => {
         const links = []
-        for (let id in item.img_url) {
-            links.push(item.img_url[id]?.s?.u)
+        if (typeof item.img_url === 'string') {
+            links.push(item.img_url)
+        } else {
+            // is object
+            for (let id in item.img_url) {
+                links.push(item.img_url[id]?.s?.u)
+            }
         }
         item.img_url = links
     }
