@@ -1,0 +1,12 @@
+{
+  "name": "jobstore-assignment",
+  "version": "1.0.0",
+  "description": "-",
+  "license": "ISC",
+  "author": "WongYC-66",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "test": "node test"
+  }
+}

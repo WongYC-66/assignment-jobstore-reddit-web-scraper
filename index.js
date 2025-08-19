@@ -1,6 +1,8 @@
 // todo
 const scrapData = () => {
-
+    // technicality issue :
+    // reddit dont use pagination like ?page=1
+    // has to find other way
 }
 
 
