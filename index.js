@@ -1,5 +1,5 @@
 // todo
-const scrapData = () => {
+export const scrapData = () => {
     // technicality issue :
     // reddit dont use pagination like ?page=1
     // has to find other way
@@ -7,7 +7,7 @@ const scrapData = () => {
 
 
 // todo
-const writeToFile = (data) => {
+export const writeToFile = (data) => {
     // data as Array of JSON
 }
 
