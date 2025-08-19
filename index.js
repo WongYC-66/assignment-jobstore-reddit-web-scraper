@@ -1,4 +1,7 @@
+import { error } from 'node:console';
 import { writeFile } from 'node:fs/promises';
+
+const FETCH_TIMES = 10
 
 // todo
 export const scrapData = async () => {
@@ -10,7 +13,37 @@ export const scrapData = async () => {
 
     // let's try option 3. Reddit .json
 
-    return []
+    let after = null
+    let allData = []
+
+    // fetch remaining 10 times
+    // Array(FETCH_TIMES).fill().forEach(async() => {
+    Array(2).fill().forEach(async () => {
+        const data = await fetchReddit({ after });
+        if (data.error) {
+            return console.error(data.error)
+        }
+
+        console.log(data)
+        after = data.after     // update "after" for reddit pagination
+        allData.push(...data.children)
+    })
+
+    return allData
+}
+
+const fetchReddit = async (options) => {
+    const { after = "null" } = options  // default to null
+    const fetchURL = `https://www.reddit.com/r/malaysia/.json?after=${after}`
+    console.log({ fetchURL })
+    try {
+        const response = await fetch(fetchURL)
+        if (!response.ok) throw Error();
+        const { data } = await response.json()
+        return { data }
+    } catch {
+        return { error: "fetch failed" }
+    }
 }
 
 
