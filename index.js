@@ -1,3 +1,5 @@
+import { writeFile } from 'node:fs/promises';
+
 // todo
 export const scrapData = () => {
     // technicality issue :
@@ -7,8 +9,10 @@ export const scrapData = () => {
 
 
 // todo
-export const writeToFile = async (data) => {
+export const writeToFile = async (data, filename) => {
     // data as Array of JSON
+    const stringified = JSON.stringify(data)
+    await  writeFile(filename, stringified, { encoding: "utf-8" });
 }
 
 
