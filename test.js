@@ -20,11 +20,12 @@ test('writeToFile can write to JSON', async() => {
     // todo: test - can write data to directory, in JSON
     await writeToFile(FAKE_DATA, "test.json")
     const isFileCreated = existsSync('./test.json')
-    assert.equal(isFileCreated === true)
+    assert.equal(isFileCreated, true)
 });
 
 test('writeToFile write with no data loss', async () => {
     // todo: test - .read from JSON, must be same.
     const readData = await readFile("./test.json", "utf-8")
-    assert.strictEqual(readData, FAKE_DATA)
+    const parsedData = JSON.parse(readData)
+    assert.deepEqual(parsedData, FAKE_DATA)
 });
