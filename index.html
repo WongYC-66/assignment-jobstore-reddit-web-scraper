@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Demo for JobStore</title>
+</head>
+
+<style>
+    #container {
+        width: 800px;
+    }
+
+    img {
+        width: 250px;
+    }
+</style>
+
+<body>
+    <!--  To render data from ./src/output/data.json -->
+    <h1>Demo for jobstore only</h1>
+    <div class="container">
+        <table>
+            <thead>
+                <th>no</th>
+                <th>post-title</th>
+                <th>post-img</th>
+            </thead>
+            <tbody id='table-body'>
+
+            </tbody>
+        </table>
+    </div>
+</body>
+
+<script defer>
+    const jsonUrl = `${window.location.origin}/src/output/data.json`;
+    console.log(jsonUrl)
+
+    const updateContainer = async () => {
+        const response = await fetch(jsonUrl)
+        const data = await response.json()
+        console.log(data)
+        renderTable(data)
+    }
+
+    const renderTable = (data) => {
+        const tableDOM = document.querySelector("#table-body")
+        data.forEach((item, i) => {
+            const row = document.createElement("tr")
+
+            const cell1 = document.createElement('td')
+            cell1.textContent = i
+
+            const cell2 = document.createElement("td")
+            cell2.textContent = item.post_title
+
+            const cell3 = document.createElement("td")
+            item.img_url.forEach(url => {
+                const link = document.createElement("a")
+                const img = document.createElement("img")
+                img.src = url
+                link.href = url
+
+                link.append(img)
+                cell3.append(link)
+            })
+
+            row.append(cell1)
+            row.append(cell2)
+            row.append(cell3)
+
+            tableDOM.append(row)
+        })
+    }
+
+    updateContainer()
+</script>
+
+</html>
