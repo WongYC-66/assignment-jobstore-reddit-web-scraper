@@ -1,7 +1,8 @@
 import { error } from 'node:console';
 import { writeFile } from 'node:fs/promises';
 
-const FETCH_TIMES = 10
+// const FETCH_TIMES = 10
+const FETCH_TIMES = 3
 
 // todo
 export const scrapData = async () => {
@@ -18,7 +19,8 @@ export const scrapData = async () => {
 
     // fetch remaining 10 times
     // Array(FETCH_TIMES).fill().forEach(async() => {
-    Array(2).fill().forEach(async () => {
+    for (let i = 0; i < FETCH_TIMES; i++) {
+        // use sychonous/blocking method, to respect rate-limiter of Reddit
         const data = await fetchReddit({ after });
         if (data.error) {
             return console.error(data.error)
@@ -27,7 +29,7 @@ export const scrapData = async () => {
         console.log(data)
         after = data.after     // update "after" for reddit pagination
         allData.push(...data.children)
-    })
+    }
 
     return allData
 }
@@ -40,7 +42,7 @@ const fetchReddit = async (options) => {
         const response = await fetch(fetchURL)
         if (!response.ok) throw Error();
         const { data } = await response.json()
-        return { data }
+        return data
     } catch {
         return { error: "fetch failed" }
     }
@@ -49,7 +51,7 @@ const fetchReddit = async (options) => {
 
 export const writeToFile = async (data, filename) => {
     // data as Array of JSON
-    const stringified = JSON.stringify(data)
+    const stringified = JSON.stringify(data, null, 2)
     await writeFile(filename, stringified, { encoding: "utf-8" });
 }
 
