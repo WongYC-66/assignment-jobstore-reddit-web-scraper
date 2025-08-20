@@ -23,6 +23,7 @@
     ```
 1. results at /src/output/data.json
 1. optional: open index.html with live server [localhost](http://127.0.0.1:5500/)
+1. or view example here : https://wongyc-66.github.io/assignment-jobstore-reddit-web-scraper/
 
 
 
