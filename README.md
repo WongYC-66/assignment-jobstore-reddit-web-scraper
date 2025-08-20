@@ -10,12 +10,19 @@
 ## Usage:
 1.  clone a copy
     ```
-    git pull https://github.com/WongYC-66/assignment-jobstore-reddit-web-scraper
+    git clone https://github.com/WongYC-66/assignment-jobstore-reddit-web-scraper
     ```
-
-1. npm install
-1. npm run start
-1. open index.html with live server [localhost](http://127.0.0.1:5500/)
+1.  ```
+    cd assignment-jobstore-reddit-web-scraper
+    ```
+1.  ```
+    npm install
+    ```
+1.  ```
+    npm run start
+    ```
+1. results at /src/output/data.json
+1. optional: open index.html with live server [localhost](http://127.0.0.1:5500/)
 
 
 
